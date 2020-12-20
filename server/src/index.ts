@@ -1,16 +1,29 @@
 import express from 'express';
-import cors from 'cors';
-import { createRouter } from './router';
+import { ApolloServer } from 'apollo-server-express';
+import typeDefs from '../graphql/schema.gql';
+
+// const typeDefs = gql`
+//   type Query {
+//     hello: String
+//   }
+// `;
+
+const resolvers = {
+  Query: {
+    hello: () => {
+      return 'hello qraphql!!!';
+    },
+    test: () => {
+      return 'Start QraphQL!!!';
+    },
+  },
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+server.applyMiddleware({ app });
 
-const port = 3000;
-
-app.use('/', createRouter());
-
-app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/`);
+app.listen({ port: 4000 }, () => {
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 });

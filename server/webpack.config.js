@@ -17,6 +17,11 @@ module.exports = {
           configFile: 'tsconfig.json',
         },
       },
+      {
+        test: /\.gql$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader',
+      },
     ],
   },
   resolve: {
